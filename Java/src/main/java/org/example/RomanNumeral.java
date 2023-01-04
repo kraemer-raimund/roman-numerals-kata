@@ -41,19 +41,15 @@ public class RomanNumeral {
     }
 
     private String convertToRoman(int n) {
-        if (n == 1) {
-            return "I";
-        } else if (n == 2) {
-            return "II";
-        } else if (n == 3) {
-            return "III";
-        } else if (n == 4) {
-            return "IV";
-        } else if (n == 5) {
-            return "V";
-        }
-        throw new NumberFormatException(
-                String.format("%d is outside of the supported range of roman numerals.", value));
+        return switch (n) {
+            case 1 -> "I";
+            case 2 -> "II";
+            case 3 -> "III";
+            case 4 -> "IV";
+            case 5 -> "V";
+            default -> throw new NumberFormatException(
+                    String.format("%d is outside of the supported range of roman numerals.", value));
+        };
     }
 
     private int parse(String roman) {
