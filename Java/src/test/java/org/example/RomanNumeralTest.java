@@ -4,8 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatObject;
+import static org.assertj.core.api.Assertions.*;
 
 class RomanNumeralTest {
 
@@ -25,6 +24,12 @@ class RomanNumeralTest {
         expectedIntValueByRomanNumeral.forEach((roman, intValue) -> {
             assertThat(new RomanNumeral(roman).toInt()).isEqualTo(intValue);
         });
+    }
+
+    @Test
+    void parsingInvalidStringThrows() {
+        assertThatExceptionOfType(NumberFormatException.class)
+                .isThrownBy(() -> new RomanNumeral("XXXX"));
     }
 
     @Test
