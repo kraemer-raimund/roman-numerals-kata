@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.Objects;
+
 public class RomanNumeral {
 
     private final int value;
@@ -25,6 +27,19 @@ public class RomanNumeral {
         return convertToRoman(value);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RomanNumeral that = (RomanNumeral) o;
+        return value == that.value;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
+    }
+
     private String convertToRoman(int n) {
         if (n == 1) {
             return "I";
@@ -43,7 +58,7 @@ public class RomanNumeral {
 
     private int parse(String roman) {
         if (roman.equals("I")) {
-            return  1;
+            return 1;
         } else if (roman.equals("II")) {
             return 2;
         } else if (roman.equals("III")) {
