@@ -22,7 +22,11 @@ public class RomanNumeral {
 
     @Override
     public String toString() {
-        if (value == 1) {
+        return convertToRoman(value);
+    }
+
+    private String convertToRoman(int n) {
+        if (n == 1) {
             return "I";
         }
         throw new NumberFormatException(
