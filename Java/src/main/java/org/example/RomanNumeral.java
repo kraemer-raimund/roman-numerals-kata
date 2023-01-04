@@ -53,19 +53,14 @@ public class RomanNumeral {
     }
 
     private int parse(String roman) {
-        if (roman.equals("I")) {
-            return 1;
-        } else if (roman.equals("II")) {
-            return 2;
-        } else if (roman.equals("III")) {
-            return 3;
-        } else if (roman.equals("IV")) {
-            return 4;
-        } else if (roman.equals("V")) {
-            return 5;
-        } else {
-            throw new NumberFormatException(
+        return switch (roman) {
+            case "I" -> 1;
+            case "II" -> 2;
+            case "III" -> 3;
+            case "IV" -> 4;
+            case "V" -> 5;
+            default -> throw new NumberFormatException(
                     String.format("%s is not a supported roman numeral.", roman));
-        }
+        };
     }
 }
