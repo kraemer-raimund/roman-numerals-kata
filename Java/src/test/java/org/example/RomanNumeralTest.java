@@ -37,7 +37,10 @@ class RomanNumeralTest {
         var expectedRomanNumeralByIntValue = Map.of(
                 1, "I",
                 42, "XLII",
-                99, "XCIX"
+                99, "XCIX",
+                100, "C",
+                111, "CXI",
+                999, "CMXCIX",
         );
 
         expectedRomanNumeralByIntValue.forEach((intValue, roman) -> {

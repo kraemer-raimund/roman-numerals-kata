@@ -211,9 +211,27 @@ public class RomanNumeral {
     }
 
     private String convertToRoman(int n) {
-        final var tens = n / 10;
+        final var hundreds = n / 100;
+        final var tens = (n % 100) / 10;
         final var units = n % 10;
-        return tensToRoman(tens) + unitsToRoman(units);
+        return hundredsToRoman(hundreds) + tensToRoman(tens) + unitsToRoman(units);
+    }
+
+    private String hundredsToRoman(int decimalHundreds) {
+        return switch (decimalHundreds) {
+            case 0 -> "";
+            case 1 -> "C";
+            case 2 -> "CC";
+            case 3 -> "CCC";
+            case 4 -> "CD";
+            case 5 -> "D";
+            case 6 -> "DC";
+            case 7 -> "DCC";
+            case 8 -> "DCCC";
+            case 9 -> "CM";
+            default -> throw new IllegalArgumentException(
+                    String.format("%d is outside of the expected range.", value));
+        };
     }
 
     private String tensToRoman(int decimalTens) {
@@ -235,6 +253,7 @@ public class RomanNumeral {
 
     private String unitsToRoman(int decimalUnits) {
         return switch (decimalUnits) {
+            case 0 -> "";
             case 1 -> "I";
             case 2 -> "II";
             case 3 -> "III";
