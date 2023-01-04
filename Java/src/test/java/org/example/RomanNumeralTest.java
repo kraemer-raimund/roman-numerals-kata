@@ -41,6 +41,8 @@ class RomanNumeralTest {
                 100, "C",
                 111, "CXI",
                 999, "CMXCIX",
+                2023, "MMXXIII",
+                3999, "MMMCMXCIX"
         );
 
         expectedRomanNumeralByIntValue.forEach((intValue, roman) -> {

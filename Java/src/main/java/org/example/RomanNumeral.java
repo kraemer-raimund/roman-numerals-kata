@@ -211,10 +211,26 @@ public class RomanNumeral {
     }
 
     private String convertToRoman(int n) {
-        final var hundreds = n / 100;
+        final var thousands = n / 1000;
+        final var hundreds = (n % 1000) / 100;
         final var tens = (n % 100) / 10;
         final var units = n % 10;
-        return hundredsToRoman(hundreds) + tensToRoman(tens) + unitsToRoman(units);
+
+        return thousandsToRoman(thousands)
+                + hundredsToRoman(hundreds)
+                + tensToRoman(tens)
+                + unitsToRoman(units);
+    }
+
+    private String thousandsToRoman(int decimalThousands) {
+        return switch (decimalThousands) {
+            case 0 -> "";
+            case 1 -> "M";
+            case 2 -> "MM";
+            case 3 -> "MMM";
+            default -> throw new IllegalArgumentException(
+                    String.format("%d is outside of the expected range.", value));
+        };
     }
 
     private String hundredsToRoman(int decimalHundreds) {
