@@ -211,14 +211,22 @@ public class RomanNumeral {
     }
 
     private String convertToRoman(int n) {
-        return switch (n) {
+        return unitsToRoman(n);
+    }
+
+    private String unitsToRoman(int decimalUnits) {
+        return switch (decimalUnits) {
             case 1 -> "I";
             case 2 -> "II";
             case 3 -> "III";
             case 4 -> "IV";
             case 5 -> "V";
-            default -> throw new NumberFormatException(
-                    String.format("%d is outside of the supported range of roman numerals.", value));
+            case 6 -> "VI";
+            case 7 -> "VII";
+            case 8 -> "VIII";
+            case 9 -> "IX";
+            default -> throw new IllegalArgumentException(
+                    String.format("%d is outside of the expected range.", value));
         };
     }
 }
