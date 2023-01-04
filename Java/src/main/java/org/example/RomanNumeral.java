@@ -9,12 +9,7 @@ public class RomanNumeral {
     }
 
     public RomanNumeral(String roman) {
-        if (roman.equals("I")) {
-            value = 1;
-        } else {
-            throw new NumberFormatException(
-                    String.format("%s is not a supported roman numeral.", roman));
-        }
+        value = parse(roman);
     }
 
     public RomanNumeral plus(RomanNumeral toAdd) {
@@ -32,5 +27,14 @@ public class RomanNumeral {
         }
         throw new NumberFormatException(
                 String.format("%d is outside of the supported range of roman numerals.", value));
+    }
+
+    private int parse(String roman) {
+        if (roman.equals("I")) {
+            return  1;
+        } else {
+            throw new NumberFormatException(
+                    String.format("%s is not a supported roman numeral.", roman));
+        }
     }
 }
