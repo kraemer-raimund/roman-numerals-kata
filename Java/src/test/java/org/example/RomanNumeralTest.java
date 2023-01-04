@@ -17,6 +17,15 @@ class RomanNumeralTest {
 
         var roman99 = new RomanNumeral("XCIX");
         assertThat(roman99.toInt()).isEqualTo(99);
+
+        var roman100 = new RomanNumeral("C");
+        assertThat(roman100.toInt()).isEqualTo(100);
+
+        var roman111 = new RomanNumeral("CXI");
+        assertThat(roman111.toInt()).isEqualTo(111);
+
+        var roman999 = new RomanNumeral("CMXCIX");
+        assertThat(roman999.toInt()).isEqualTo(999);
     }
 
     @Test

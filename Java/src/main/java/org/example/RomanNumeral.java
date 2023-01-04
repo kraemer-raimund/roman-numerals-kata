@@ -56,6 +56,10 @@ public class RomanNumeral {
         var remainingRoman = roman;
         var value = 0;
 
+        var hundredsRoman = hundredsPart(remainingRoman);
+        value += parseHundreds(hundredsRoman);
+        remainingRoman = remainingRoman.replaceFirst(hundredsRoman, "");
+
         var tensRoman = tensPart(remainingRoman);
         value += parseTens(tensRoman);
         remainingRoman = remainingRoman.replaceFirst(tensRoman, "");
@@ -70,6 +74,45 @@ public class RomanNumeral {
         }
 
         return value;
+    }
+
+    private String hundredsPart(String roman) {
+        if (roman.startsWith("CM")) {
+            return "CM";
+        } else if (roman.startsWith("DCCC")) {
+            return "DCCC";
+        } else if (roman.startsWith("DCC")) {
+            return "DCC";
+        } else if (roman.startsWith("DC")) {
+            return "DC";
+        } else if (roman.startsWith("D")) {
+            return "D";
+        } else if (roman.startsWith("CD")) {
+            return "CD";
+        } else if (roman.startsWith("CCC")) {
+            return "CCC";
+        } else if (roman.startsWith("CC")) {
+            return "CC";
+        } else if (roman.startsWith("C")) {
+            return "C";
+        } else {
+            return "";
+        }
+    }
+
+    private int parseHundreds(String romanHundreds) {
+        return switch (romanHundreds) {
+            case "C" -> 100;
+            case "CC" -> 200;
+            case "CCC" -> 300;
+            case "CD" -> 400;
+            case "D" -> 500;
+            case "DC" -> 600;
+            case "DCC" -> 700;
+            case "DCCC" -> 800;
+            case "CM" -> 900;
+            default -> 0;
+        };
     }
 
     private String tensPart(String roman) {
