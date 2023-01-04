@@ -40,6 +40,21 @@ class RomanNumeralTest {
     }
 
     @Test
+    void valueMustBeInRange() {
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> new RomanNumeral(-100));
+
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> new RomanNumeral(0));
+
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> new RomanNumeral(4000));
+
+        assertThatNoException().isThrownBy(() -> new RomanNumeral(1));
+        assertThatNoException().isThrownBy(() -> new RomanNumeral(3999));
+    }
+
+    @Test
     void addingTwoNumeralsYieldsTheirSum() {
         var roman2 = new RomanNumeral(2);
         var roman3 = new RomanNumeral("III");

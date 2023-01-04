@@ -7,6 +7,10 @@ public class RomanNumeral {
     private final int value;
 
     public RomanNumeral(int value) {
+        if (value < 1 || value > 3999) {
+            throw new IllegalArgumentException(
+                    String.format("%d is out of range for roman numerals.", value));
+        }
         this.value = value;
     }
 
