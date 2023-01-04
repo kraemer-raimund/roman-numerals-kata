@@ -44,18 +44,6 @@ public class RomanNumeral {
         return Objects.hash(value);
     }
 
-    private String convertToRoman(int n) {
-        return switch (n) {
-            case 1 -> "I";
-            case 2 -> "II";
-            case 3 -> "III";
-            case 4 -> "IV";
-            case 5 -> "V";
-            default -> throw new NumberFormatException(
-                    String.format("%d is outside of the supported range of roman numerals.", value));
-        };
-    }
-
     private int parse(String roman) {
         var remainingRoman = roman;
         var value = 0;
@@ -219,6 +207,18 @@ public class RomanNumeral {
             case "VIII" -> 8;
             case "IX" -> 9;
             default -> 0;
+        };
+    }
+
+    private String convertToRoman(int n) {
+        return switch (n) {
+            case 1 -> "I";
+            case 2 -> "II";
+            case 3 -> "III";
+            case 4 -> "IV";
+            case 5 -> "V";
+            default -> throw new NumberFormatException(
+                    String.format("%d is outside of the supported range of roman numerals.", value));
         };
     }
 }
