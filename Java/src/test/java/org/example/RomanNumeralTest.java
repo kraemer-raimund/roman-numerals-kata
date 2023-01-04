@@ -2,6 +2,8 @@ package org.example;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Map;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatObject;
 
@@ -9,6 +11,19 @@ class RomanNumeralTest {
 
     @Test
     void romanStringCanBeConvertedToInt() {
+        var expectedIntValueByRomanNumeral = Map.of(
+                "I", 1,
+                "XLII", 42,
+                "XCIX", 99,
+                "C", 100,
+                "CXI", 111,
+                "CMXCIX", 999
+        );
+
+        expectedIntValueByRomanNumeral.forEach((roman, intValue) -> {
+            assertThat(new RomanNumeral(roman).toInt()).isEqualTo(intValue);
+        });
+
         var roman1 = new RomanNumeral("I");
         assertThat(roman1.toInt()).isEqualTo(1);
 
