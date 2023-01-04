@@ -9,11 +9,20 @@ public class RomanNumeral {
     }
 
     public RomanNumeral(String roman) {
-        throw new UnsupportedOperationException("Not yet implemented.");
+        if (roman.equals("I")) {
+            value = 1;
+        } else {
+            throw new NumberFormatException(
+                    String.format("%s is not a supported roman numeral.", roman));
+        }
     }
 
     public RomanNumeral plus(RomanNumeral toAdd) {
         throw new UnsupportedOperationException("Not yet implemented.");
+    }
+
+    public int toInt() {
+        return value;
     }
 
     @Override
