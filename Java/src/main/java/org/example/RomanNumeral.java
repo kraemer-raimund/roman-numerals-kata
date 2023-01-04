@@ -60,19 +60,19 @@ public class RomanNumeral {
         var remainingRoman = roman;
         var value = 0;
 
-        var thousandsRoman = thousandsPart(remainingRoman);
+        final var thousandsRoman = thousandsPart(remainingRoman);
         value += parseThousands(thousandsRoman);
         remainingRoman = remainingRoman.replaceFirst(thousandsRoman, "");
 
-        var hundredsRoman = hundredsPart(remainingRoman);
+        final var hundredsRoman = hundredsPart(remainingRoman);
         value += parseHundreds(hundredsRoman);
         remainingRoman = remainingRoman.replaceFirst(hundredsRoman, "");
 
-        var tensRoman = tensPart(remainingRoman);
+        final var tensRoman = tensPart(remainingRoman);
         value += parseTens(tensRoman);
         remainingRoman = remainingRoman.replaceFirst(tensRoman, "");
 
-        var unitsRoman = unitsPart(remainingRoman);
+        final var unitsRoman = unitsPart(remainingRoman);
         value += parseUnits(unitsRoman);
         remainingRoman = remainingRoman.replaceFirst(unitsRoman, "");
 
