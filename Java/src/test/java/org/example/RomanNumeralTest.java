@@ -35,7 +35,9 @@ class RomanNumeralTest {
     @Test
     void intCanBeConvertedToRomanString() {
         var expectedRomanNumeralByIntValue = Map.of(
-                1, "I"
+                1, "I",
+                42, "XLII",
+                99, "XCIX"
         );
 
         expectedRomanNumeralByIntValue.forEach((intValue, roman) -> {

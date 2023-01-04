@@ -211,7 +211,26 @@ public class RomanNumeral {
     }
 
     private String convertToRoman(int n) {
-        return unitsToRoman(n);
+        final var tens = n / 10;
+        final var units = n % 10;
+        return tensToRoman(tens) + unitsToRoman(units);
+    }
+
+    private String tensToRoman(int decimalTens) {
+        return switch (decimalTens) {
+            case 0 -> "";
+            case 1 -> "X";
+            case 2 -> "XX";
+            case 3 -> "XXX";
+            case 4 -> "XL";
+            case 5 -> "L";
+            case 6 -> "LX";
+            case 7 -> "LXX";
+            case 8 -> "LXXX";
+            case 9 -> "XC";
+            default -> throw new IllegalArgumentException(
+                    String.format("%d is outside of the expected range.", value));
+        };
     }
 
     private String unitsToRoman(int decimalUnits) {
