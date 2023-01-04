@@ -2,8 +2,10 @@ package org.example;
 
 public class RomanNumeral {
 
+    private final int value;
+
     public RomanNumeral(int value) {
-        throw new UnsupportedOperationException("Not yet implemented.");
+        this.value = value;
     }
 
     public RomanNumeral(String roman) {
@@ -16,6 +18,10 @@ public class RomanNumeral {
 
     @Override
     public String toString() {
-        throw new UnsupportedOperationException("Not yet implemented.");
+        if (value == 1) {
+            return "I";
+        }
+        throw new NumberFormatException(
+                String.format("%d is outside of the supported range of roman numerals.", value));
     }
 }

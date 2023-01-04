@@ -8,6 +8,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 class RomanNumeralTest {
 
     @Test
+    void intCanBeConvertedToRomanString() {
+        var roman1 = new RomanNumeral(1);
+        var romanString = roman1.toString();
+        assertThat(romanString).isEqualTo("I");
+    }
+
+    @Test
     @Disabled("This test acts as an example, but does not make sense " +
             "until a much later TDD iteration.")
     void addingTwoNumeralsYieldsTheirSum() {
