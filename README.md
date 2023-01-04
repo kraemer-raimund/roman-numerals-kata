@@ -1,3 +1,6 @@
+># ***You are on the solution branch.***
+> Make sure to try solving it yourself first and check out the example solution afterwards. The provided solution is of course only an example of what your solution could look like.
+
 # Roman Numerals Kata
 
 A coding kata that focuses on **design** and **TDD**.
