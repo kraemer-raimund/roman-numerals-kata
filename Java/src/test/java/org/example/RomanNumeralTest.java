@@ -34,9 +34,13 @@ class RomanNumeralTest {
 
     @Test
     void intCanBeConvertedToRomanString() {
-        var roman1 = new RomanNumeral(1);
-        var romanString = roman1.toString();
-        assertThat(romanString).isEqualTo("I");
+        var expectedRomanNumeralByIntValue = Map.of(
+                1, "I"
+        );
+
+        expectedRomanNumeralByIntValue.forEach((intValue, roman) -> {
+            assertThat(new RomanNumeral(intValue).toString()).isEqualTo(roman);
+        });
     }
 
     @Test
