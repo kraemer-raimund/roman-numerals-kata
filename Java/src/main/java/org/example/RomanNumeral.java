@@ -56,6 +56,10 @@ public class RomanNumeral {
         var remainingRoman = roman;
         var value = 0;
 
+        var thousandsRoman = thousandsPart(remainingRoman);
+        value += parseThousands(thousandsRoman);
+        remainingRoman = remainingRoman.replaceFirst(thousandsRoman, "");
+
         var hundredsRoman = hundredsPart(remainingRoman);
         value += parseHundreds(hundredsRoman);
         remainingRoman = remainingRoman.replaceFirst(hundredsRoman, "");
@@ -74,6 +78,27 @@ public class RomanNumeral {
         }
 
         return value;
+    }
+
+    private String thousandsPart(String roman) {
+        if (roman.startsWith("MMM")) {
+            return "MMM";
+        } else if (roman.startsWith("MM")) {
+            return "MM";
+        } else if (roman.startsWith("M")) {
+            return "M";
+        } else {
+            return "";
+        }
+    }
+
+    private int parseThousands(String romanThousands) {
+        return switch (romanThousands) {
+            case "M" -> 1000;
+            case "MM" -> 2000;
+            case "MMM" -> 3000;
+            default -> 0;
+        };
     }
 
     private String hundredsPart(String roman) {
