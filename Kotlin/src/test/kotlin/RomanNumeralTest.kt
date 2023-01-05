@@ -8,9 +8,14 @@ class RomanNumeralTest {
 
     @Test
     fun romanStringCanBeConvertedToInt() {
-        val roman1 = RomanNumeral("I");
-        val intValue = roman1.toInt();
-        assertThat(intValue).isEqualTo(1);
+        val expectedIntValueByRomanNumeral = mapOf(
+            Pair("I", 1),
+        )
+
+        expectedIntValueByRomanNumeral.forEach { (roman, expectedValue) ->
+            val actualValue = RomanNumeral(roman).toInt()
+            assertThat(actualValue).isEqualTo(expectedValue);
+        }
     }
 
     @Test
