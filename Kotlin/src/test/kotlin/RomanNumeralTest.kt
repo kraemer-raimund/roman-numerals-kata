@@ -18,4 +18,12 @@ class RomanNumeralTest {
         val romanString = roman1.toString()
         assertThat(romanString).isEqualTo("I")
     }
+
+    @Test
+    fun addingTwoNumeralsYieldsTheirSum() {
+        val roman2 = RomanNumeral(2)
+        val roman3 = RomanNumeral("III")
+        val sum = roman2 + roman3
+        assertThat(sum.toString()).isEqualTo("V")
+    }
 }
