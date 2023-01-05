@@ -19,7 +19,7 @@ class RomanNumeral {
     }
 
     fun toInt(): Int {
-        return 1;
+        return value;
     }
 
     override fun toString(): String {

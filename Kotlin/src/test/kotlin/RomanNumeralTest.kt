@@ -25,5 +25,6 @@ class RomanNumeralTest {
         val roman3 = RomanNumeral("III")
         val sum = roman2 + roman3
         assertThat(sum.toString()).isEqualTo("V")
+        assertThat(sum.toInt()).isEqualTo(5)
     }
 }
