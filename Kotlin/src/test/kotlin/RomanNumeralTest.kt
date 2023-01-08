@@ -40,6 +40,21 @@ class RomanNumeralTest {
     }
 
     @Test
+    fun valueMustBeInRange() {
+        assertThatExceptionOfType(IllegalArgumentException::class.java)
+            .isThrownBy { RomanNumeral(-100) }
+
+        assertThatExceptionOfType(IllegalArgumentException::class.java)
+            .isThrownBy { RomanNumeral(0) }
+
+        assertThatExceptionOfType(IllegalArgumentException::class.java)
+            .isThrownBy { RomanNumeral(4000) }
+
+        Assertions.assertThatNoException().isThrownBy { RomanNumeral(1) }
+        Assertions.assertThatNoException().isThrownBy { RomanNumeral(3999) }
+    }
+
+    @Test
     fun addingTwoNumeralsYieldsTheirSum() {
         val roman2 = RomanNumeral(2)
         val roman3 = RomanNumeral("III")

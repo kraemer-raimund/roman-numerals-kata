@@ -5,6 +5,9 @@ class RomanNumeral {
     private val value: Int
 
     constructor(value: Int) {
+        require(value in 1..3999) {
+            String.format("%d is out of range for roman numerals.", value)
+        }
         this.value = value
     }
 
