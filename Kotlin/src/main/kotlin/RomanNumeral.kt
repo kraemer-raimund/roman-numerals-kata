@@ -62,6 +62,9 @@ class RomanNumeral {
         roman: String,
         positionalPrefixes: List<String>
     ): String? {
+        // We match the last, i. e. highest prefix for the current decimal position,
+        // since higher roman "digits" can contain lower ones (e. g. XC contains X),
+        // which would otherwise lead to a false-positive matching of X.
         return positionalPrefixes.lastOrNull { roman.startsWith(it) }
     }
 
