@@ -44,13 +44,15 @@ class RomanNumeral {
     override fun hashCode(): Int = value
 
     private fun parse(roman: String): Int {
-        return when (roman) {
-            "I" -> 1
-            "II" -> 2
-            "III" -> 3
-            "IV" -> 4
-            "V" -> 5
-            else -> throw NumberFormatException()
-        }
+        return romanUnits.indexOf(roman) + 1 // Offset for zero-based index.
     }
+
+    private val romanUnits: List<String> =
+        listOf(
+            "I",
+            "II",
+            "III",
+            "IV",
+            "V",
+        )
 }
