@@ -108,14 +108,9 @@ class RomanNumeral {
     }
 
     private fun convertToRoman(n: Int): String {
-        return when (n) {
-            1 -> "I"
-            2 -> "II"
-            3 -> "III"
-            4 -> "IV"
-            5 -> "V"
-            else -> throw NumberFormatException()
-        }
+        val unitsIndex = n - 1
+        val romanUnits = allRomanUnits[unitsIndex]
+        return romanUnits
     }
 
     private val allRomanThousands: List<String> =
