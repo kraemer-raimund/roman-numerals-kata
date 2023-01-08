@@ -1,7 +1,5 @@
 package org.example
 
-import java.lang.NumberFormatException
-
 class RomanNumeral {
 
     private val value: Int
@@ -44,15 +42,70 @@ class RomanNumeral {
     override fun hashCode(): Int = value
 
     private fun parse(roman: String): Int {
-        return romanUnits.indexOf(roman) + 1 // Offset for zero-based index.
+        val tensPart = highestMatchingPrefix(roman, allRomanTens)
+        val tensValue = when {
+            tensPart != null -> toTensValue(tensPart)
+            else -> 0
+        }
+
+        val unitsPart = highestMatchingPrefix(
+            roman.removePrefix(tensPart ?: ""),
+            allRomanUnits
+        )
+        val unitsValue = when {
+            unitsPart != null -> toUnitsValue(unitsPart)
+            else -> 0
+        }
+
+        return tensValue + unitsValue
     }
 
-    private val romanUnits: List<String> =
+    private fun highestMatchingPrefix(
+        roman: String,
+        positionalPrefixes: List<String>
+    ): String? {
+        return positionalPrefixes.lastOrNull { roman.startsWith(it) }
+    }
+
+    private fun toTensValue(romanTensPart: String): Int {
+        val index = allRomanTens.indexOf(romanTensPart)
+        if (index < 0) {
+            throw NumberFormatException()
+        }
+        return 10 * (index + 1)
+    }
+
+    private fun toUnitsValue(romanUnitsPart: String): Int {
+        val index = allRomanUnits.indexOf(romanUnitsPart)
+        if (index < 0) {
+            throw NumberFormatException()
+        }
+        return 1 * (index + 1)
+    }
+
+    private val allRomanTens: List<String> =
+        listOf(
+            "X",
+            "XX",
+            "XXX",
+            "XL",
+            "L",
+            "LX",
+            "LXX",
+            "LXXX",
+            "XC"
+        )
+
+    private val allRomanUnits: List<String> =
         listOf(
             "I",
             "II",
             "III",
             "IV",
             "V",
+            "VI",
+            "VII",
+            "VIII",
+            "IX"
         )
 }
