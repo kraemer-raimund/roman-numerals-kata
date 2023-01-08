@@ -42,20 +42,23 @@ class RomanNumeral {
     override fun hashCode(): Int = value
 
     private fun parse(roman: String): Int {
-        val tensPart = highestMatchingPrefix(roman, allRomanTens)
+        val hundredsPart = highestMatchingPrefix(roman, allRomanHundreds)
+        val hundredsValue = toHundredsValueOrNull(hundredsPart) ?: 0
+        val remainingRomanWithoutHundreds = roman.removePrefix(hundredsPart ?: "")
+
+        val tensPart = highestMatchingPrefix(remainingRomanWithoutHundreds, allRomanTens)
         val tensValue = toTensValueOrNull(tensPart) ?: 0
-        val remainingRomanWithoutTens = roman.removePrefix(tensPart ?: "")
+        val remainingRomanWithoutTens = remainingRomanWithoutHundreds.removePrefix(tensPart ?: "")
 
         val unitsPart = highestMatchingPrefix(remainingRomanWithoutTens, allRomanUnits)
         val unitsValue = toUnitsValueOrNull(unitsPart) ?: 0
-        val remainingRomanWithoutUnits =
-            remainingRomanWithoutTens.removePrefix(unitsPart ?: "")
+        val remainingRomanWithoutUnits = remainingRomanWithoutTens.removePrefix(unitsPart ?: "")
 
         if (remainingRomanWithoutUnits.isNotBlank()) {
             throw NumberFormatException("`$roman` is not a valid roman numeral.")
         }
 
-        return tensValue + unitsValue
+        return hundredsValue + tensValue + unitsValue
     }
 
     private fun highestMatchingPrefix(
@@ -66,6 +69,15 @@ class RomanNumeral {
         // since higher roman "digits" can contain lower ones (e. g. XC contains X),
         // which would otherwise lead to a false-positive matching of X.
         return positionalPrefixes.lastOrNull { roman.startsWith(it) }
+    }
+
+    private fun toHundredsValueOrNull(romanHundredsPartOrNull: String?): Int? {
+        romanHundredsPartOrNull ?: return null
+        val index = allRomanHundreds.indexOf(romanHundredsPartOrNull)
+        if (index < 0) {
+            throw NumberFormatException()
+        }
+        return 100 * (index + 1)
     }
 
     private fun toTensValueOrNull(romanTensPartOrNull: String?): Int? {
@@ -85,6 +97,19 @@ class RomanNumeral {
         }
         return 1 * (index + 1)
     }
+
+    private val allRomanHundreds: List<String> =
+        listOf(
+            "C",
+            "CC",
+            "CCC",
+            "CD",
+            "D",
+            "DC",
+            "DCC",
+            "DCCC",
+            "CM"
+        )
 
     private val allRomanTens: List<String> =
         listOf(

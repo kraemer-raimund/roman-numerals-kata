@@ -13,6 +13,9 @@ class RomanNumeralTest {
             Pair("I", 1),
             Pair("XLII", 42),
             Pair("XCIX", 99),
+            Pair("C", 100),
+            Pair("CXI", 111),
+            Pair("CMXCIX", 999),
         )
 
         expectedIntValueByRomanNumeral.forEach { (roman, expectedValue) ->
