@@ -2,6 +2,7 @@ package org.example
 
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatExceptionOfType
 import org.junit.jupiter.api.Test
 
 class RomanNumeralTest {
@@ -18,6 +19,12 @@ class RomanNumeralTest {
             val actualValue = RomanNumeral(roman).toInt()
             assertThat(actualValue).isEqualTo(expectedValue);
         }
+    }
+
+    @Test
+    fun parsingInvalidStringThrows() {
+        assertThatExceptionOfType(NumberFormatException::class.java)
+            .isThrownBy { RomanNumeral("XXXX") }
     }
 
     @Test

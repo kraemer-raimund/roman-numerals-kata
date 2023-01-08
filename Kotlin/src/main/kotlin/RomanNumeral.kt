@@ -48,6 +48,12 @@ class RomanNumeral {
 
         val unitsPart = highestMatchingPrefix(remainingRomanWithoutTens, allRomanUnits)
         val unitsValue = toUnitsValueOrNull(unitsPart) ?: 0
+        val remainingRomanWithoutUnits =
+            remainingRomanWithoutTens.removePrefix(unitsPart ?: "")
+
+        if (remainingRomanWithoutUnits.isNotBlank()) {
+            throw NumberFormatException("`$roman` is not a valid roman numeral.")
+        }
 
         return tensValue + unitsValue
     }
