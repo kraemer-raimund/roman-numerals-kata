@@ -24,14 +24,7 @@ class RomanNumeral {
     }
 
     override fun toString(): String {
-        return when (value) {
-            1 -> "I"
-            2 -> "II"
-            3 -> "III"
-            4 -> "IV"
-            5 -> "V"
-            else -> throw NumberFormatException()
-        }
+        return convertToRoman(value)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -112,6 +105,17 @@ class RomanNumeral {
             throw NumberFormatException()
         }
         return 1 * (index + 1)
+    }
+
+    private fun convertToRoman(n: Int): String {
+        return when (n) {
+            1 -> "I"
+            2 -> "II"
+            3 -> "III"
+            4 -> "IV"
+            5 -> "V"
+            else -> throw NumberFormatException()
+        }
     }
 
     private val allRomanThousands: List<String> =
