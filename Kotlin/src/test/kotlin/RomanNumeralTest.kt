@@ -36,6 +36,13 @@ class RomanNumeralTest {
     fun intCanBeConvertedToRomanString() {
         val expectedRomanNumeralByIntValue = mapOf(
             Pair(1, "I"),
+            Pair(42, "XLII"),
+            Pair(99, "XCIX"),
+            Pair(100, "C"),
+            Pair(111, "CXI"),
+            Pair(999, "CMXCIX"),
+            Pair(2023, "MMXXIII"),
+            Pair(3999, "MMMCMXCIX"),
         )
 
         expectedRomanNumeralByIntValue.forEach { (intValue, expectedRoman) ->

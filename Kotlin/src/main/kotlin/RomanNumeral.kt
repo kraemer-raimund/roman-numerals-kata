@@ -108,9 +108,22 @@ class RomanNumeral {
     }
 
     private fun convertToRoman(n: Int): String {
-        val unitsIndex = n - 1
-        val romanUnits = allRomanUnits[unitsIndex]
-        return romanUnits
+        // Offset for zero-based indices, e.g. "I" is at position 0.
+        val indexOffset = 1
+
+        val thousandsIndex = n / 1000 - indexOffset
+        val romanThousands = allRomanThousands.getOrElse(thousandsIndex) { "" }
+
+        val hundredsIndex = (n % 1000) / 100 - indexOffset
+        val romanHundreds = allRomanHundreds.getOrElse(hundredsIndex) { "" }
+
+        val tensIndex = (n % 100) / 10 - indexOffset
+        val romanTens = allRomanTens.getOrElse(tensIndex) { "" }
+
+        val unitsIndex = n % 10 - 1
+        val romanUnits = allRomanUnits.getOrElse(unitsIndex) { "" }
+
+        return "$romanThousands$romanHundreds$romanTens$romanUnits"
     }
 
     private val allRomanThousands: List<String> =
