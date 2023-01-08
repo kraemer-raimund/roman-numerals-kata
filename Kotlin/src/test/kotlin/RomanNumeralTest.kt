@@ -34,9 +34,14 @@ class RomanNumeralTest {
 
     @Test
     fun intCanBeConvertedToRomanString() {
-        val roman1 = RomanNumeral(1)
-        val romanString = roman1.toString()
-        assertThat(romanString).isEqualTo("I")
+        val expectedRomanNumeralByIntValue = mapOf(
+            Pair(1, "I"),
+        )
+
+        expectedRomanNumeralByIntValue.forEach { (intValue, expectedRoman) ->
+            val actualRoman = RomanNumeral(intValue).toString()
+            assertThat(actualRoman).isEqualTo(expectedRoman);
+        }
     }
 
     @Test
