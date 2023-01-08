@@ -54,11 +54,13 @@ class RomanNumeral {
         val unitsValue = toUnitsValueOrNull(unitsPart) ?: 0
         val remainingRomanWithoutUnits = remainingRomanWithoutTens.removePrefix(unitsPart ?: "")
 
-        if (remainingRomanWithoutUnits.isNotBlank()) {
+        val parsedValue = thousandsValue + hundredsValue + tensValue + unitsValue
+
+        if (parsedValue == 0 || remainingRomanWithoutUnits.isNotBlank()) {
             throw NumberFormatException("`$roman` is not a valid roman numeral.")
         }
 
-        return thousandsValue + hundredsValue + tensValue + unitsValue
+        return parsedValue
     }
 
     private fun highestMatchingPrefix(
