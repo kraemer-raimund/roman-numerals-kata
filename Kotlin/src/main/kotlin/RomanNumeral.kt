@@ -43,19 +43,11 @@ class RomanNumeral {
 
     private fun parse(roman: String): Int {
         val tensPart = highestMatchingPrefix(roman, allRomanTens)
-        val tensValue = when {
-            tensPart != null -> toTensValue(tensPart)
-            else -> 0
-        }
+        val tensValue = toTensValueOrNull(tensPart) ?: 0
+        val remainingRomanWithoutTens = roman.removePrefix(tensPart ?: "")
 
-        val unitsPart = highestMatchingPrefix(
-            roman.removePrefix(tensPart ?: ""),
-            allRomanUnits
-        )
-        val unitsValue = when {
-            unitsPart != null -> toUnitsValue(unitsPart)
-            else -> 0
-        }
+        val unitsPart = highestMatchingPrefix(remainingRomanWithoutTens, allRomanUnits)
+        val unitsValue = toUnitsValueOrNull(unitsPart) ?: 0
 
         return tensValue + unitsValue
     }
@@ -67,16 +59,18 @@ class RomanNumeral {
         return positionalPrefixes.lastOrNull { roman.startsWith(it) }
     }
 
-    private fun toTensValue(romanTensPart: String): Int {
-        val index = allRomanTens.indexOf(romanTensPart)
+    private fun toTensValueOrNull(romanTensPartOrNull: String?): Int? {
+        romanTensPartOrNull ?: return null
+        val index = allRomanTens.indexOf(romanTensPartOrNull)
         if (index < 0) {
             throw NumberFormatException()
         }
         return 10 * (index + 1)
     }
 
-    private fun toUnitsValue(romanUnitsPart: String): Int {
-        val index = allRomanUnits.indexOf(romanUnitsPart)
+    private fun toUnitsValueOrNull(romanUnitsPartOrNull: String?): Int? {
+        romanUnitsPartOrNull ?: return null
+        val index = allRomanUnits.indexOf(romanUnitsPartOrNull)
         if (index < 0) {
             throw NumberFormatException()
         }
