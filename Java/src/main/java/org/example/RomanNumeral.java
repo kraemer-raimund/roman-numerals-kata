@@ -2,6 +2,7 @@ package org.example;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.function.BinaryOperator;
 
 public class RomanNumeral {
 
@@ -46,169 +47,107 @@ public class RomanNumeral {
     }
 
     private int parse(String roman) {
-        var remainingRoman = roman;
-        var value = 0;
+        final var thousandsPart = highestMatchingPrefixOrNull(roman, allRomanThousands);
+        final var thousandsValue = toThousandsValueOrZero(thousandsPart);
+        final var remainingRomanWithoutThousands = roman.replaceFirst(
+                thousandsPart != null ? thousandsPart : "",
+                ""
+        );
 
-        final var thousandsRoman = thousandsPart(remainingRoman);
-        value += parseThousands(thousandsRoman);
-        remainingRoman = remainingRoman.replaceFirst(thousandsRoman, "");
+        final var hundredsPart = highestMatchingPrefixOrNull(remainingRomanWithoutThousands, allRomanHundreds);
+        final var hundredsValue = toHundredsValueOrZero(hundredsPart);
+        final var remainingRomanWithoutHundreds = remainingRomanWithoutThousands.replaceFirst(
+                hundredsPart != null ? hundredsPart : "",
+                ""
+        );
 
-        final var hundredsRoman = hundredsPart(remainingRoman);
-        value += parseHundreds(hundredsRoman);
-        remainingRoman = remainingRoman.replaceFirst(hundredsRoman, "");
+        final var tensPart = highestMatchingPrefixOrNull(remainingRomanWithoutHundreds, allRomanTens);
+        final var tensValue = toTensValueOrZero(tensPart);
+        final var remainingRomanWithoutTens = remainingRomanWithoutHundreds.replaceFirst(
+                tensPart != null ? tensPart : "",
+                ""
+        );
 
-        final var tensRoman = tensPart(remainingRoman);
-        value += parseTens(tensRoman);
-        remainingRoman = remainingRoman.replaceFirst(tensRoman, "");
+        final var unitsPart = highestMatchingPrefixOrNull(remainingRomanWithoutTens, allRomanUnits);
+        final var unitsValue = toUnitsValueOrZero(unitsPart);
+        final var remainingRomanWithoutUnits = remainingRomanWithoutTens.replaceFirst(
+                unitsPart != null ? unitsPart : "",
+                ""
+        );
 
-        final var unitsRoman = unitsPart(remainingRoman);
-        value += parseUnits(unitsRoman);
-        remainingRoman = remainingRoman.replaceFirst(unitsRoman, "");
+        final var parsedValue = thousandsValue + hundredsValue + tensValue + unitsValue;
 
-        if (value == 0 || !remainingRoman.isEmpty()) {
+        if (parsedValue == 0 || !remainingRomanWithoutUnits.isEmpty()) {
             throw new NumberFormatException(
                     String.format("%s is not a supported roman numeral.", roman));
         }
 
-        return value;
+        return parsedValue;
     }
 
-    private String thousandsPart(String roman) {
-        if (roman.startsWith("MMM")) {
-            return "MMM";
-        } else if (roman.startsWith("MM")) {
-            return "MM";
-        } else if (roman.startsWith("M")) {
-            return "M";
-        } else {
-            return "";
+    private String highestMatchingPrefixOrNull(String roman, List<String> positionalPrefixes) {
+        // We match the last, i.e. the highest prefix for the current decimal position,
+        // since higher roman "digits" can contain lower ones (e. g. XC contains X),
+        // which would otherwise lead to a false-positive matching of X.
+        BinaryOperator<String> reduceToLast = (first, second) -> second;
+
+        return positionalPrefixes
+                .stream()
+                .filter(roman::startsWith)
+                .reduce(reduceToLast)
+                .orElse(null);
+    }
+
+    private int toThousandsValueOrZero(String romanThousandsPartOrNull) {
+        if (romanThousandsPartOrNull == null) {
+            return 0;
         }
-    }
 
-    private int parseThousands(String romanThousands) {
-        return switch (romanThousands) {
-            case "M" -> 1000;
-            case "MM" -> 2000;
-            case "MMM" -> 3000;
-            default -> 0;
-        };
-    }
-
-    private String hundredsPart(String roman) {
-        if (roman.startsWith("CM")) {
-            return "CM";
-        } else if (roman.startsWith("DCCC")) {
-            return "DCCC";
-        } else if (roman.startsWith("DCC")) {
-            return "DCC";
-        } else if (roman.startsWith("DC")) {
-            return "DC";
-        } else if (roman.startsWith("D")) {
-            return "D";
-        } else if (roman.startsWith("CD")) {
-            return "CD";
-        } else if (roman.startsWith("CCC")) {
-            return "CCC";
-        } else if (roman.startsWith("CC")) {
-            return "CC";
-        } else if (roman.startsWith("C")) {
-            return "C";
-        } else {
-            return "";
+        final var index = allRomanThousands.indexOf(romanThousandsPartOrNull);
+        if (index < 0) {
+            throw new NumberFormatException();
         }
+
+        return 1000 * (index + 1);
     }
 
-    private int parseHundreds(String romanHundreds) {
-        return switch (romanHundreds) {
-            case "C" -> 100;
-            case "CC" -> 200;
-            case "CCC" -> 300;
-            case "CD" -> 400;
-            case "D" -> 500;
-            case "DC" -> 600;
-            case "DCC" -> 700;
-            case "DCCC" -> 800;
-            case "CM" -> 900;
-            default -> 0;
-        };
-    }
-
-    private String tensPart(String roman) {
-        if (roman.startsWith("XC")) {
-            return "XC";
-        } else if (roman.startsWith("LXXX")) {
-            return "LXXX";
-        } else if (roman.startsWith("LXX")) {
-            return "LXX";
-        } else if (roman.startsWith("LX")) {
-            return "LX";
-        } else if (roman.startsWith("L")) {
-            return "L";
-        } else if (roman.startsWith("XL")) {
-            return "XL";
-        } else if (roman.startsWith("XXX")) {
-            return "XXX";
-        } else if (roman.startsWith("XX")) {
-            return "XX";
-        } else if (roman.startsWith("X")) {
-            return "X";
-        } else {
-            return "";
+    private int toHundredsValueOrZero(String romanHundredsPartOrNull) {
+        if (romanHundredsPartOrNull == null) {
+            return 0;
         }
-    }
 
-    private int parseTens(String romanTens) {
-        return switch (romanTens) {
-            case "X" -> 10;
-            case "XX" -> 20;
-            case "XXX" -> 30;
-            case "XL" -> 40;
-            case "L" -> 50;
-            case "LX" -> 60;
-            case "LXX" -> 70;
-            case "LXXX" -> 80;
-            case "XC" -> 90;
-            default -> 0;
-        };
-    }
-
-    private String unitsPart(String roman) {
-        if (roman.startsWith("IX")) {
-            return "IX";
-        } else if (roman.startsWith("VIII")) {
-            return "VIII";
-        } else if (roman.startsWith("VII")) {
-            return "VII";
-        } else if (roman.startsWith("VI")) {
-            return "VI";
-        } else if (roman.startsWith("V")) {
-            return "V";
-        } else if (roman.startsWith("IV")) {
-            return "IV";
-        } else if (roman.startsWith("III")) {
-            return "III";
-        } else if (roman.startsWith("II")) {
-            return "II";
-        } else if (roman.startsWith("I")) {
-            return "I";
-        } else {
-            return "";
+        final var index = allRomanHundreds.indexOf(romanHundredsPartOrNull);
+        if (index < 0) {
+            throw new NumberFormatException();
         }
+
+        return 100 * (index + 1);
     }
 
-    private int parseUnits(String romanUnits) {
-        return switch (romanUnits) {
-            case "I" -> 1;
-            case "II" -> 2;
-            case "III" -> 3;
-            case "IV" -> 4;
-            case "V" -> 5;
-            case "VI" -> 6;
-            case "VII" -> 7;
-            case "VIII" -> 8;
-            case "IX" -> 9;
-            default -> 0;
-        };
+    private int toTensValueOrZero(String romanTensPartOrNull) {
+        if (romanTensPartOrNull == null) {
+            return 0;
+        }
+
+        final var index = allRomanTens.indexOf(romanTensPartOrNull);
+        if (index < 0) {
+            throw new NumberFormatException();
+        }
+
+        return 10 * (index + 1);
+    }
+
+    private int toUnitsValueOrZero(String romanUnitsPartOrNull) {
+        if (romanUnitsPartOrNull == null) {
+            return 0;
+        }
+
+        final var index = allRomanUnits.indexOf(romanUnitsPartOrNull);
+        if (index < 0) {
+            throw new NumberFormatException();
+        }
+
+        return index + 1;
     }
 
     private String convertToRoman(int n) {
