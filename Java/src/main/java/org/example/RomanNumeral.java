@@ -1,5 +1,6 @@
 package org.example;
 
+import java.util.List;
 import java.util.Objects;
 
 public class RomanNumeral {
@@ -211,76 +212,73 @@ public class RomanNumeral {
     }
 
     private String convertToRoman(int n) {
-        final var thousands = n / 1000;
-        final var hundreds = (n % 1000) / 100;
-        final var tens = (n % 100) / 10;
-        final var units = n % 10;
+        // Offset for zero-based indices, e.g. "I" is at position 0.
+        final var indexOffset = 1;
 
-        return thousandsToRoman(thousands)
-                + hundredsToRoman(hundreds)
-                + tensToRoman(tens)
-                + unitsToRoman(units);
+        final var thousandsIndex = n / 1000 - indexOffset;
+        final var romanThousands = getOrElse(allRomanThousands, thousandsIndex, "");
+
+        final var hundredsIndex = (n % 1000) / 100 - indexOffset;
+        final var romanHundreds = getOrElse(allRomanHundreds, hundredsIndex, "");
+
+        final var tensIndex = (n % 100) / 10 - indexOffset;
+        final var romanTens = getOrElse(allRomanTens, tensIndex, "");
+
+        final var unitsIndex = n % 10 - indexOffset;
+        final var romanUnits = getOrElse(allRomanUnits, unitsIndex, "");
+
+        return romanThousands + romanHundreds + romanTens + romanUnits;
     }
 
-    private String thousandsToRoman(int decimalThousands) {
-        return switch (decimalThousands) {
-            case 0 -> "";
-            case 1 -> "M";
-            case 2 -> "MM";
-            case 3 -> "MMM";
-            default -> throw new IllegalArgumentException(
-                    String.format("%d is outside of the expected range.", value));
-        };
+    private <T> T getOrElse(List<T> list, int index, T defaultValue) {
+        if (index > list.size() - 1) {
+            throw new IndexOutOfBoundsException(index);
+        } else if (index < 0) {
+            return defaultValue;
+        } else {
+            return list.get(index);
+        }
     }
 
-    private String hundredsToRoman(int decimalHundreds) {
-        return switch (decimalHundreds) {
-            case 0 -> "";
-            case 1 -> "C";
-            case 2 -> "CC";
-            case 3 -> "CCC";
-            case 4 -> "CD";
-            case 5 -> "D";
-            case 6 -> "DC";
-            case 7 -> "DCC";
-            case 8 -> "DCCC";
-            case 9 -> "CM";
-            default -> throw new IllegalArgumentException(
-                    String.format("%d is outside of the expected range.", value));
-        };
-    }
+    private final List<String> allRomanThousands = List.of(
+            "M",
+            "MM",
+            "MMM"
+    );
 
-    private String tensToRoman(int decimalTens) {
-        return switch (decimalTens) {
-            case 0 -> "";
-            case 1 -> "X";
-            case 2 -> "XX";
-            case 3 -> "XXX";
-            case 4 -> "XL";
-            case 5 -> "L";
-            case 6 -> "LX";
-            case 7 -> "LXX";
-            case 8 -> "LXXX";
-            case 9 -> "XC";
-            default -> throw new IllegalArgumentException(
-                    String.format("%d is outside of the expected range.", value));
-        };
-    }
+    private final List<String> allRomanHundreds = List.of(
+            "C",
+            "CC",
+            "CCC",
+            "CD",
+            "D",
+            "DC",
+            "DCC",
+            "DCCC",
+            "CM"
+    );
 
-    private String unitsToRoman(int decimalUnits) {
-        return switch (decimalUnits) {
-            case 0 -> "";
-            case 1 -> "I";
-            case 2 -> "II";
-            case 3 -> "III";
-            case 4 -> "IV";
-            case 5 -> "V";
-            case 6 -> "VI";
-            case 7 -> "VII";
-            case 8 -> "VIII";
-            case 9 -> "IX";
-            default -> throw new IllegalArgumentException(
-                    String.format("%d is outside of the expected range.", value));
-        };
-    }
+    private final List<String> allRomanTens = List.of(
+            "X",
+            "XX",
+            "XXX",
+            "XL",
+            "L",
+            "LX",
+            "LXX",
+            "LXXX",
+            "XC"
+    );
+
+    private final List<String> allRomanUnits = List.of(
+            "I",
+            "II",
+            "III",
+            "IV",
+            "V",
+            "VI",
+            "VII",
+            "VIII",
+            "IX"
+    );
 }
