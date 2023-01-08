@@ -30,6 +30,9 @@ class RomanNumeralTest {
     void parsingInvalidStringThrows() {
         assertThatExceptionOfType(NumberFormatException.class)
                 .isThrownBy(() -> new RomanNumeral("XXXX"));
+
+        assertThatExceptionOfType(NumberFormatException.class)
+                .isThrownBy(() -> new RomanNumeral(""));
     }
 
     @Test
