@@ -42,9 +42,13 @@ class RomanNumeral {
     override fun hashCode(): Int = value
 
     private fun parse(roman: String): Int {
-        val hundredsPart = highestMatchingPrefix(roman, allRomanHundreds)
+        val thousandsPart = highestMatchingPrefix(roman, allRomanThousands)
+        val thousandsValue = toThousandsValueOrNull(thousandsPart) ?: 0
+        val remainingRomanWithoutThousands = roman.removePrefix(thousandsPart ?: "")
+
+        val hundredsPart = highestMatchingPrefix(remainingRomanWithoutThousands, allRomanHundreds)
         val hundredsValue = toHundredsValueOrNull(hundredsPart) ?: 0
-        val remainingRomanWithoutHundreds = roman.removePrefix(hundredsPart ?: "")
+        val remainingRomanWithoutHundreds = remainingRomanWithoutThousands.removePrefix(hundredsPart ?: "")
 
         val tensPart = highestMatchingPrefix(remainingRomanWithoutHundreds, allRomanTens)
         val tensValue = toTensValueOrNull(tensPart) ?: 0
@@ -58,7 +62,7 @@ class RomanNumeral {
             throw NumberFormatException("`$roman` is not a valid roman numeral.")
         }
 
-        return hundredsValue + tensValue + unitsValue
+        return thousandsValue + hundredsValue + tensValue + unitsValue
     }
 
     private fun highestMatchingPrefix(
@@ -69,6 +73,15 @@ class RomanNumeral {
         // since higher roman "digits" can contain lower ones (e. g. XC contains X),
         // which would otherwise lead to a false-positive matching of X.
         return positionalPrefixes.lastOrNull { roman.startsWith(it) }
+    }
+
+    private fun toThousandsValueOrNull(romanThousandsPartOrNull: String?): Int? {
+        romanThousandsPartOrNull ?: return null
+        val index = allRomanThousands.indexOf(romanThousandsPartOrNull)
+        if (index < 0) {
+            throw NumberFormatException()
+        }
+        return 1000 * (index + 1)
     }
 
     private fun toHundredsValueOrNull(romanHundredsPartOrNull: String?): Int? {
@@ -97,6 +110,13 @@ class RomanNumeral {
         }
         return 1 * (index + 1)
     }
+
+    private val allRomanThousands: List<String> =
+        listOf(
+            "M",
+            "MM",
+            "MMM"
+        )
 
     private val allRomanHundreds: List<String> =
         listOf(
