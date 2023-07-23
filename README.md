@@ -2,6 +2,10 @@
 
 A coding kata that focuses on **design** and **TDD**.
 
+
+###### *An [example solution](https://github.com/kraemer-raimund/roman-numerals-kata-solution-example) is available.*
+___
+
 ## Design Goals
 
 When implementing a conversion between decimal and roman numbers, it seems like an obvious choice to represent roman numbers as strings and write static methods to convert between integers and strings. The result is procedural code (despite using an "object-oriented language") and code smells known as [*primitive obsession*](https://refactoring.guru/smells/primitive-obsession), [*stringly typed*](https://wiki.c2.com/?StringlyTyped) and [*feature envy*](https://refactoring.guru/smells/feature-envy). Surely you've seen it many times, and chances are you've produced it: High-level business objects exposing low-level implementation details by representing every lower-level concept as a primitive type or string, and strong coupling to static methods in an attempt to "reduce duplication" ([*DRY*](https://wiki.c2.com/?DontRepeatYourself)). It's probably one of the most common code smells, and can quickly turn into a maintainability problem (e. g. imagine having to replace an `int` with a `long` in dozens of occurrences through every architecture layer).
